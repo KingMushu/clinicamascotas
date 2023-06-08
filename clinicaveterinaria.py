@@ -1,13 +1,12 @@
+from concurrent.futures.process import _ThreadWakeup
 import os
 import random
 import msvcrt
 import time
-def randrange():
-    for i in range(1):
-        print(random.randrange(1,10,1))
 sw=1
 Mascotas=[]
 flag=True 
+i=0
 def menu():
     print("****************************")
     print("    *Veterinaria Patitas*   ")
@@ -19,8 +18,111 @@ def menu():
     print("****************************")
     print("       ")
 
+def opcion1():
+    flag=True
+    flag2=True
+    print("     ****Registrar Mascota****")
+    print("                      ")
+    i=0
+    while flag==True:
+        print("                              ")
+        id_mascota=random.randrange(10000,99999)
+        print(f"El Id de su mascota es {id_mascota}")
+        for Mascota in Mascotas:
+            if Mascota['ID'] ==id_mascota:
+                i=1
+            else:
+                i=0
+        if i==0:
+            print("Codigo Valido")
+            break
+        else:
+            print("Codigo ya existente")
+            
+    print("                 ")
+    nombreM=input("Ingrese nombre de mascota:")
+    print("                      ")
+    nombreD=input("Ingrese nombre del dueño:")
+    print("                           ")
+    print("   Tipo de mascota ")
+    print("  Perro        Gato ")
+    print("                             ")
+    while flag2==True:
+        tipoM=input("Escriba tipo de mascota:")
+        tipoM=tipoM.capitalize()
+        if tipoM =='Perro':
+            flag2=False
+        elif tipoM=='Gato':
+            flag2=False
+        else:
+            print("Ingrese Mascota valida")
+            flag2==True
+    print("       ")
+    Mascota={"ID": id_mascota, "Nombre Mascota": nombreM, "Nombre Dueño": nombreD, "Tipo": tipoM}
+    Mascotas.append(Mascota)
+    print("Mascota registrada")
+    print("                  ")
+    respuesta=input("Desea agregar otra mascota?:")
+    respuesta=respuesta.lower()
+    if respuesta=='si':
+        flag=True
+    elif respuesta=='no':
+        flag=True
 
+def opcion2():
+    print("     ****Listado de Mascotas****")
+    print("                       ")
+    for Mascota in Mascotas:
+        print(f"ID: {Mascota['ID']} Nombre Mascota: {Mascota['Nombre Mascota']} Nombre Dueño: {Mascota['Nombre Dueño']} Tipo: {Mascota['Tipo']} ")
 
+def opcion3():
+    print("     ****Buscar Mascota****")
+    print("                          ")
+    id_mascota=input("Ingrese ID de mascota:")
+    print("                     ")
+    for Mascota in Mascotas:
+        if Mascota['ID']== id_mascota:
+            print(f"ID: {Mascota['ID']} Nombre Mascota: {Mascota['Nombre Mascota']} Nombre Dueño: {Mascota['Nombre Dueño']} Tipo: {Mascota['Tipo']} ")
+        else:
+            print("Mascota no registrada")
+
+def opcion4():
+    print("     ****Imprimir Reportes****")
+    print("     Tipo de mascota ")
+    print(" 1- Perro         2 - Gato")
+    print("                    ")
+    tipoM=int(input("Escoja tipo de mascota:"))
+    if tipoM==1:
+        tipoM='Perro'
+    elif tipoM==2:
+        tipoM='Gato'
+    print("                                    ")
+    if tipoM == 'Perro':
+        for Mascota in Mascotas:
+            if Mascota['Tipo']== tipoM:
+                ("***********************************")
+                print(f"ID Mascota:{Mascota['ID']}")
+                print(f"Nombre Mascota:{Mascota['Nombre Mascota']}")
+                print(f"Tipo de mascota:{Mascota['Tipo']}")
+                print("    ")
+                print(f"Dueño de la mascota:{Mascota['Nombre Dueño']}")
+                print("   ")
+                print(f"Sr/Sra le faltan {random.randrange(1,10)} vacunas a su mascota")
+                ("***********************************")
+                print("          ")
+    elif tipoM== 'Gato':
+        for Mascota in Mascotas:
+            if Mascota['Tipo']== tipoM:
+                print("***********************************")
+                print(f"ID Mascota:{Mascota['ID']}")
+                print(f"Nombre Mascota:{Mascota['Nombre Mascota']}")
+                print(f"Tipo de mascota:{Mascota['Tipo']}")
+                print("    ")
+                print(f"Dueño de la mascota:{Mascota['Nombre Dueño']}")
+                print("   ")
+                print(f"Sr/Sra le faltan {random.randrange(1,10)} vacunas a su mascota")
+                print("***********************************")
+                print("       ")
 
 
 while sw==1:
@@ -29,110 +131,13 @@ while sw==1:
         opcion=int(input("Seleccione opcion:"))
         print("                       ")
         if opcion==1:
-            print("     ****Registrar Mascota****")
-            print("                      ")
-            i=0
-            while flag==True:
-                while flag==True:
-                    print("                              ")
-                    id_mascota=int(input("Ingrese ID mascota:"))
-                    if id_mascota != id_mascota.isdigit():
-                        print("Ingrese solo valores numericos")
-                    if len(id_mascota)== 5 and id_mascota.isdigit():
-                        for Mascota in Mascotas:
-                            if Mascota['ID'] ==id_mascota:
-                                i=1
-                            else:
-                                i=0
-                        if i==0:
-                            print("Codigo Valido")
-                            break
-                        else:
-                            print("Codigo ya existente")
-                    elif len(id_mascota) > 5 or len(id_mascota) < 5:
-                        print("Codigo Invalido, intente nuevamente")
-                    
-                print("                 ")
-                nombreM=input("Ingrese nombre de mascota:")
-                print("                      ")
-                nombreD=input("Ingrese nombre del dueño:")
-                print("                           ")
-                print("   Tipo de mascota ")
-                print("  Perro        Gato ")
-                print("                             ")
-                while flag==True:
-                    tipoM=input("Escriba tipo de mascota:")
-                    tipoM=tipoM.capitalize()
-                    if tipoM =='Perro':
-                        break
-                    elif tipoM=='Gato':
-                        break
-                    else:
-                        print("Ingrese Mascota valida")
-                        flag==True
-                print("       ")
-                Mascota={"ID": id_mascota, "Nombre Mascota": nombreM, "Nombre Dueño": nombreD, "Tipo": tipoM}
-                Mascotas.append(Mascota)
-                print("Mascota registrada")
-                print("                  ")
-                respuesta=input("Desea agregar otra mascota?:")
-                respuesta=respuesta.lower()
-                if respuesta=='si':
-                    flag=True
-                elif respuesta=='no':
-                    break
+            opcion1()
         if opcion==2:
-            print("     ****Listado de Mascotas****")
-            print("                       ")
-            for Mascota in Mascotas:
-                print(f"ID: {Mascota['ID']} Nombre Mascota: {Mascota['Nombre Mascota']} Nombre Dueño: {Mascota['Nombre Dueño']} Tipo: {Mascota['Tipo']} ")
+            opcion2()
         if opcion==3:
-            print("     ****Buscar Mascota****")
-            print("                          ")
-            id_mascota=input("Ingrese ID de mascota:")
-            print("                     ")
-            for Mascota in Mascotas:
-                if Mascota['ID']== id_mascota:
-                    print(f"ID: {Mascota['ID']} Nombre Mascota: {Mascota['Nombre Mascota']} Nombre Dueño: {Mascota['Nombre Dueño']} Tipo: {Mascota['Tipo']} ")
-                else:
-                    print("Mascota no registrada")
+            opcion3()
         if opcion==4:
-            print("     ****Imprimir Reportes****")
-            print("     Tipo de mascota ")
-            print(" 1- Perro         2 - Gato")
-            print("                    ")
-            tipoM=int(input("Escriba tipo de mascota:"))
-            if tipoM==1:
-                tipoM='Perro'
-            elif tipoM==2:
-                tipoM='Gato'
-            print("                                    ")
-            if tipoM == 'Perro':
-                for Mascota in Mascotas:
-                    if Mascota['Tipo']== tipoM:
-                        ("***********************************")
-                        print(f"ID Mascota:{Mascota['ID']}")
-                        print(f"Nombre Mascota:{Mascota['Nombre Mascota']}")
-                        print(f"Tipo de mascota:{Mascota['Tipo']}")
-                        print("    ")
-                        print(f"Dueño de la mascota:{Mascota['Nombre Dueño']}")
-                        print("   ")
-                        print(f"Sr/Sra le faltan {random.randrange(1,10)} vacunas a su mascota")
-                        ("***********************************")
-                        print("          ")
-            elif tipoM== 'Gato':
-                for Mascota in Mascotas:
-                    if Mascota['Tipo']== tipoM:
-                        print("***********************************")
-                        print(f"ID Mascota:{Mascota['ID']}")
-                        print(f"Nombre Mascota:{Mascota['Nombre Mascota']}")
-                        print(f"Tipo de mascota:{Mascota['Tipo']}")
-                        print("    ")
-                        print(f"Dueño de la mascota:{Mascota['Nombre Dueño']}")
-                        print("   ")
-                        print(f"Sr/Sra le faltan {random.randrange(1,10)} vacunas a su mascota")
-                        print("***********************************")
-                        print("       ")
+            opcion4()
         if opcion==5:
             print("                                                  ")
             for i in range(5,0,-1):
